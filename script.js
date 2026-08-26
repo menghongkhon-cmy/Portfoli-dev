@@ -238,7 +238,35 @@
       },
       { threshold: 0.35 }
     );
-    $$(".skill-card").forEach((c) => skillObserver.observe(c));
+    $$(".skill-card").forEach((card) => {
+      skillObserver.observe(card);
+      if (!card.dataset.hoverAnimationBound) {
+        card.addEventListener("mouseenter", () => animateSkillRing(card));
+        card.dataset.hoverAnimationBound = "true";
+      }
+    });
+  }
+
+  function animateSkillRing(card) {
+    if (prefersReducedMotion()) return;
+    const ring = $(".skill-card__ring", card);
+    const circle = $(".ring-fg", ring);
+    const pctLabel = $(".skill-card__pct", ring);
+    const target = parseInt(ring.getAttribute("data-ring"), 10) || 0;
+    const circumference = parseFloat(circle.dataset.circumference);
+    const duration = 900;
+    const start = performance.now();
+    circle.style.strokeDashoffset = circumference;
+
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(target * eased);
+      circle.style.strokeDashoffset = circumference - (current / 100) * circumference;
+      pctLabel.textContent = current + "%";
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   }
 
   // ---- Projects ----
