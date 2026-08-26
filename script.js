@@ -252,6 +252,11 @@
       .toUpperCase();
   }
 
+  function projectImagePath(image) {
+    if (!image) return "";
+    return image.includes("/") ? image : `assets/projects/${image}.jpg`;
+  }
+
   function renderProjects(lang) {
     const grid = $("#projectsGrid");
     grid.innerHTML = "";
@@ -265,8 +270,10 @@
       card.style.animationDelay = `${i * 0.06}s`;
       card.setAttribute("data-category", proj.category);
       card.setAttribute("data-project-id", proj.id);
+      const imagePath = projectImagePath(proj.image);
       card.innerHTML = `
         <div class="project-card__image">
+          ${imagePath ? `<img src="${imagePath}" alt="${content.name} project preview" loading="lazy">` : ""}
           <span class="project-card__glyph" aria-hidden="true">${projectInitials(content.name)}</span>
         </div>
         <div class="project-card__body">
@@ -294,6 +301,15 @@
           </div>
         </div>`;
       grid.appendChild(card);
+      const projectImage = $(".project-card__image img", card);
+      if (projectImage) {
+        const imageWrap = projectImage.parentElement;
+        imageWrap.classList.add("has-image");
+        projectImage.addEventListener("error", () => {
+          imageWrap.classList.remove("has-image");
+          projectImage.remove();
+        }, { once: true });
+      }
     });
 
     applyProjectFilter(state.projectFilter);
@@ -332,7 +348,17 @@
     const content = t(lang, "projects.items")[id];
     const labels = t(lang, "projects.modal");
 
-    $("#modalMedia").innerHTML = `<span aria-hidden="true">${projectInitials(content.name)}</span>`;
+    const modalMedia = $("#modalMedia");
+    const imagePath = projectImagePath(proj.image);
+    modalMedia.innerHTML = `${imagePath ? `<img src="${imagePath}" alt="${content.name} project preview">` : ""}<span aria-hidden="true">${projectInitials(content.name)}</span>`;
+    const modalImage = $("img", modalMedia);
+    if (modalImage) {
+      modalMedia.classList.add("has-image");
+      modalImage.addEventListener("error", () => {
+        modalMedia.classList.remove("has-image");
+        modalImage.remove();
+      }, { once: true });
+    }
     $("#modalTags").innerHTML = proj.tech.map((tc) => `<span class="tech-tag">${tc}</span>`).join("");
     $("#modalTitle").textContent = content.name;
     $("#modalDesc").textContent = content.desc;
@@ -526,10 +552,11 @@
       const content = dict[tItem.id];
       const card = document.createElement("div");
       card.className = "testimonial-card" + (i === state.testimonialIndex ? " is-active" : "");
+      const initials = tItem.name.split(" ").map((w) => w[0]).join("");
       card.innerHTML = `
         <svg class="icon icon--lg testimonial-card__quote-icon" aria-hidden="true"><use href="#i-quote"></use></svg>
         <p class="testimonial-card__quote">${content.quote}</p>
-        <div class="testimonial-card__avatar">${tItem.name.split(" ").map((w) => w[0]).join("")}</div>
+        <div class="testimonial-card__avatar">${initials}</div>
         <div>
           <div class="testimonial-card__name">${tItem.name}</div>
           <div class="testimonial-card__role">${t(lang, "testimonials.eyebrow")}</div>
@@ -925,6 +952,26 @@
     });
   }
 
+  function initAboutPhotoCycle() {
+    const frame = $(".about__photo");
+    const photos = $$('img', frame);
+    if (!frame || photos.length < 2) return;
+    let photoIndex = 0;
+    photos[0].classList.add("is-active");
+
+    window.setInterval(() => {
+      const previousPhoto = photos[photoIndex];
+      photoIndex = (photoIndex + 1) % photos.length;
+      const nextPhoto = photos[photoIndex];
+      frame.classList.add("is-changing");
+      nextPhoto.classList.add("is-active");
+      window.setTimeout(() => {
+        previousPhoto.classList.remove("is-active");
+        frame.classList.remove("is-changing", "is-changing-reverse");
+      }, 1200);
+    }, 3000);
+  }
+
   /* ============================================================
      FOOTER YEAR
   ============================================================ */
@@ -956,6 +1003,7 @@
     initEasterEgg();
     initFooterYear();
     initAvatarFallback();
+    initAboutPhotoCycle();
 
     // first paint of all translated + dynamic content
     applyStaticTranslations(state.lang);

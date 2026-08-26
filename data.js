@@ -121,9 +121,9 @@ const PROJECTS = [
 // 4. TESTIMONIALS
 // ---------------------------------------------------------------
 const TESTIMONIALS = [
-  { id: "t1", name: "Sophea Ly", role: "instructor" },
-  { id: "t2", name: "Michael Reyes", role: "mentor" },
-  { id: "t3", name: "Vanna Kim", role: "teammate" },
+  { id: "t1", name: "Sophea Lihov", role: "instructor" },
+  { id: "t2", name: "Michael Menghak", role: "mentor" },
+  { id: "t3", name: "Vanna Heng Le", role: "teammate" },
 ];
 
 // ---------------------------------------------------------------
