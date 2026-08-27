@@ -701,6 +701,31 @@
     window.addEventListener("scroll", onScroll, { passive: true });
   }
 
+  function initLogoVoice() {
+    const logo = $(".nav__logo");
+    if (!logo || !("speechSynthesis" in window)) return;
+
+    const speakGreeting = () => {
+      window.speechSynthesis.cancel();
+      const greeting = new SpeechSynthesisUtterance("Hello sir, I'm Menghong");
+      const voices = window.speechSynthesis.getVoices();
+      const khmerVoice = voices.find((voice) => /^(km)(-|_)/i.test(voice.lang));
+      const maleVoice = voices.find((voice) =>
+        /^en(-|_)/i.test(voice.lang) && /David|Mark|Alex|Daniel|George|Google UK English Male/i.test(voice.name)
+      );
+      greeting.voice = khmerVoice || maleVoice || voices.find((voice) => /^en(-|_)/i.test(voice.lang)) || null;
+      greeting.lang = greeting.voice ? greeting.voice.lang : "km-KH";
+      greeting.rate = .9;
+      greeting.pitch = .9;
+      greeting.volume = .9;
+      window.speechSynthesis.resume();
+      window.speechSynthesis.speak(greeting);
+    };
+
+    logo.addEventListener("mouseenter", speakGreeting);
+    logo.addEventListener("click", speakGreeting);
+  }
+
   function initActiveLinkTracking() {
     const sections = $$("main > section[id]");
     const links = $$(".nav__link");
@@ -826,13 +851,22 @@
      LOADER
   ============================================================ */
   function initLoader() {
+    const loader = $("#loader");
+    const startedAt = performance.now();
+    let finished = false;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      document.body.classList.add("page-loaded");
+      loader.classList.add("is-hidden");
+    };
     window.addEventListener("load", () => {
-      setTimeout(() => {
-        $("#loader").classList.add("is-hidden");
-      }, 500);
+      const minimumTime = prefersReducedMotion() ? 0 : 6000;
+      const remaining = Math.max(minimumTime - (performance.now() - startedAt), 0);
+      setTimeout(finish, remaining);
     });
     // Safety fallback in case 'load' already fired
-    setTimeout(() => $("#loader").classList.add("is-hidden"), 3000);
+    setTimeout(finish, prefersReducedMotion() ? 0 : 6000);
   }
 
   /* ============================================================
@@ -1015,6 +1049,7 @@
     initTheme();
     initLanguage();
     initNavScroll();
+    initLogoVoice();
     initActiveLinkTracking();
     initMobileNav();
     initScrollExtras();
