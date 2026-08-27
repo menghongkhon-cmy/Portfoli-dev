@@ -405,6 +405,15 @@ html[lang="km"] h4 {
 
 .loader__initials {
   color: var(--accent);
+  display: inline-block;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  letter-spacing: .04em;
+  animation: loaderNameGlow 2s ease-in-out infinite;
+}
+
+@keyframes loaderNameGlow {
+  0%, 100% { color: var(--accent); text-shadow: 0 0 0 transparent; }
+  50% { color: var(--accent-2); text-shadow: 0 0 18px var(--accent-glow); }
 }
 
 .loader__backdrop {

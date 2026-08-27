@@ -852,11 +852,24 @@
   ============================================================ */
   function initLoader() {
     const loader = $("#loader");
+    const statusText = $("#loaderStatusText");
+    const statusCode = $("#loaderStatusCode");
     const startedAt = performance.now();
     let finished = false;
+    const startupSteps = [
+      [0, "INITIALIZING PORTFOLIO", "[RUN]"],
+      [1500, "LOADING PROFILE DATA", "[RUN]"],
+      [3000, "STARTING CODE MODULES", "[RUN]"],
+      [4500, "CONNECTING PROJECTS", "[OK]"],
+    ];
+    const stepTimers = startupSteps.map(([delay, text, code]) => setTimeout(() => {
+      if (statusText) statusText.textContent = text;
+      if (statusCode) statusCode.textContent = code;
+    }, delay));
     const finish = () => {
       if (finished) return;
       finished = true;
+      stepTimers.forEach((timer) => clearTimeout(timer));
       document.body.classList.add("page-loaded");
       loader.classList.add("is-hidden");
     };

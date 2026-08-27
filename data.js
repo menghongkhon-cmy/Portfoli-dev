@@ -21,7 +21,7 @@ const SITE = {
     telegram: "https://t.me/Menghong180",
   },
   githubUsername: "menghongkhon-cmy",
-  cvFile: "assets/cv/Menghong_khon_CV.pdf",
+  cvFile: "Khon_Menghong_CV_Final.pdf",
   stats: {
     projects: 7,
     technologies: 14,

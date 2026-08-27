@@ -80,7 +80,7 @@ Everything you'd want to update — name, bio, projects, skills, education, cert
 - **Contact form**: currently a front-end-only simulation (shows a success state after a short delay) so no private API key is ever exposed in client code. To send real emails, connect it to a form backend such as [Formspree](https://formspree.io), [EmailJS](https://www.emailjs.com), or your own serverless function, inside `initContactForm()` in `script.js`.
 - **GitHub activity section**: ships with clean static placeholder numbers/graph (`renderGithub()` in `script.js`). Swap in the real [GitHub REST API](https://docs.github.com/en/rest) (`/users/{username}/repos`, contribution data, etc.) when ready — the markup and styling already expect that shape of data.
 - **Profile photo**: `assets/images/profile.jpg` is used in two places — the floating avatar badge in the hero and the portrait card in the About section. It currently ships with a branded placeholder (gradient + initials). Replace that file with your own photo (square, at least 600×600px works well for both crops) and it updates in both spots automatically. If the file is ever missing or fails to load, the layout gracefully falls back to the initials badge instead of a broken image icon.
-- **CV file**: replace `assets/cv/Menghong_khon_CV.pdf` with your real résumé (keep the same filename, or update `SITE.cvFile` in `data.js`).
+- **CV file**: `Khon_Menghong_CV_Final.pdf` is linked from the hero and Contact section.
 - **OG image**: swap `assets/images/og-cover.jpg` for a real photo/screenshot-based social card if you want (1200×630px recommended).
 
 ---
