@@ -51,7 +51,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap"
     rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
@@ -288,9 +288,10 @@
       </nav>
 
       <div class="nav__actions">
-        <div class="lang-switch" id="langSwitch">
-          <button type="button" class="lang-switch__btn is-active" data-lang="en" aria-pressed="true">EN</button>
-          <button type="button" class="lang-switch__btn" data-lang="km" aria-pressed="false">ខ្មែរ</button>
+        <div class="lang-switch" id="langSwitch" aria-label="Language" aria-expanded="false">
+          <button type="button" class="lang-switch__btn is-active" data-lang="en" aria-pressed="true" aria-label="English"><img class="lang-switch__flag" src="img/EN.png" alt=""></button>
+          <button type="button" class="lang-switch__btn" data-lang="km" aria-pressed="false" aria-label="Khmer"><img class="lang-switch__flag" src="img/KH.png" alt=""></button>
+          <button type="button" class="lang-switch__btn" data-lang="ja" aria-pressed="false"><span class="lang-switch__flag" aria-hidden="true">🇯🇵</span> 日本語</button>
         </div>
         <button type="button" class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
           <svg class="icon" aria-hidden="true">
@@ -440,6 +441,8 @@
               </div>
             </div>
 
+            <div class="about__highlights" id="aboutHighlights"></div>
+
             <div class="learning-pill reveal">
               <span class="learning-pill__dot"></span>
               <strong data-i18n="about.learningTitle">Currently learning</strong>
@@ -452,6 +455,8 @@
               <img src="img/dev.jpg" alt="Portrait of Menghong" data-i18n-alt="about.photoAlt" loading="lazy">
               <img class="about__photo__next" src="img/profile.jpg" alt="Menghong working at a laptop" loading="lazy">
               <img class="about__photo__next" src="img/pf1.jpg" alt="Menghong working at a laptop" loading="lazy">
+              <img class="about__photo__next" src="img/pf2.jpg" alt="Menghong working at a laptop" loading="lazy">
+              <img class="about__photo__next" src="img/pf3.jpg" alt="Menghong working at a laptop" loading="lazy">
             </div>
             <div class="about__timeline reveal" id="aboutTimeline" aria-label="Career path timeline"></div>
           </div>
@@ -887,12 +892,15 @@
     <div class="container footer__bottom">
       <p>&copy; <span id="footerYear"></span> Menghong. <span data-i18n="footer.rights">All rights reserved.</span>
       </p>
-      <button type="button" class="footer__top" id="footerTopBtn">
-        <span data-i18n="footer.backToTop">Back to top</span>
-        <svg class="icon icon--sm" aria-hidden="true">
-          <use href="#i-arrow-up"></use>
-        </svg>
-      </button>
+      <div class="footer__bottom-actions">
+        <a href="admin.html" class="footer__admin-link" id="adminGateLink">Admin login</a>
+        <button type="button" class="footer__top" id="footerTopBtn">
+          <span data-i18n="footer.backToTop">Back to top</span>
+          <svg class="icon icon--sm" aria-hidden="true">
+            <use href="#i-arrow-up"></use>
+          </svg>
+        </button>
+      </div>
     </div>
   </footer>
 

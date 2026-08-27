@@ -12,16 +12,21 @@
 // ---------------------------------------------------------------
 const SITE = {
   name: "Menghong",
-  role: "menghongkhon-cmy",
-  email: "menghongkhon180@gmail.com",
+  role: "menghong-dev",
+  email: "menghong.dev@gmail.com",
   location: "Phnom Penh, Cambodia",
   social: {
     github: "https://github.com/menghongkhon-cmy",
-    linkedin: "https://linkedin.com/in/menghong-khon",
+    linkedin: "https://linkedin.com/in/menghong",
     telegram: "https://t.me/Menghong180",
   },
   githubUsername: "menghongkhon-cmy",
-  cvFile: "Khon_Menghong_CV_Final.pdf",
+  telegramHandle: "@Menghong180",
+  phone: {
+    display: "+855 96 539 0269",
+    href: "+855965390269",
+  },
+  cvFile: "assets/cv/Menghong_CV.pdf",
   stats: {
     projects: 7,
     technologies: 14,
@@ -121,9 +126,9 @@ const PROJECTS = [
 // 4. TESTIMONIALS
 // ---------------------------------------------------------------
 const TESTIMONIALS = [
-  { id: "t1", name: "Sophea Lihov", role: "instructor" },
-  { id: "t2", name: "Michael Menghak", role: "mentor" },
-  { id: "t3", name: "Vanna Heng Le", role: "teammate" },
+  { id: "t1", name: "Sophea Ly", role: "instructor" },
+  { id: "t2", name: "Michael Reyes", role: "mentor" },
+  { id: "t3", name: "Vanna Kim", role: "teammate" },
 ];
 
 // ---------------------------------------------------------------
@@ -132,7 +137,7 @@ const TESTIMONIALS = [
 const I18N = {
   en: {
     meta: {
-      title: "Menghong",
+      title: "Menghong — Full-Stack Web Developer",
       description:
         "Portfolio of Menghong, a full-stack web developer from Phnom Penh, Cambodia, building fast, clean and functional web products with JavaScript, Python and Flask.",
     },
@@ -142,7 +147,6 @@ const I18N = {
       skills: "Skills",
       projects: "Projects",
       journey: "Journey",
-      backgroundStudy: "Background Study",
       contact: "Contact",
       contactBtn: "Contact Me",
     },
@@ -366,39 +370,12 @@ const I18N = {
         },
       ],
     },
-    backgroundStudy: {
-      eyebrow: "Background Study",
-      title: "My education path",
-      subtitle: "From secondary school to university, each stage shaped the way I learn and build.",
-      items: [
-        {
-          date: "Grade 9",
-          title: "Lower Secondary Education",
-          desc: "Completed Grade 9 and built the foundation for continued academic study.",
-        },
-        {
-          date: "Grade 12",
-          title: "High School Graduation",
-          desc: "Completed Grade 12 with a C grade and prepared for university study.",
-        },
-        {
-          date: "Passerelles numériques Cambodia",
-          title: "Web Development Student",
-          desc: "Studied web development at Passerelles numériques Cambodia and developed practical skills for building useful digital products.",
-        },
-        {
-          date: "Current focus",
-          title: "Learning by Building",
-          desc: "Continuing to grow through web development projects, programming practice, and hands-on problem solving.",
-        },
-      ],
-    },
     education: {
       eyebrow: "Education",
       title: "Education",
-      school: "Passerelles numériques Cambodia",
-      program: "Web Development Program",
-      year: "Completed",
+      school: "Royal University of Phnom Penh",
+      program: "Bachelor of Science in Computer Science",
+      year: "2023 — 2027 (Expected)",
       skillsLabel: "Skills gained",
       skillsList: [
         "Data structures & algorithms",
@@ -521,7 +498,6 @@ const I18N = {
       skills: "ជំនាញ",
       projects: "គម្រោង",
       journey: "ដំណើរការ",
-      backgroundStudy: "ប្រវត្តិការសិក្សា",
       contact: "ទំនាក់ទំនង",
       contactBtn: "ទាក់ទងខ្ញុំ",
     },
@@ -743,39 +719,12 @@ const I18N = {
         },
       ],
     },
-    backgroundStudy: {
-      eyebrow: "ប្រវត្តិការសិក្សា",
-      title: "ដំណើរការសិក្សារបស់ខ្ញុំ",
-      subtitle: "ចាប់ពីអនុវិទ្យាល័យរហូតដល់សាកលវិទ្យាល័យ ដំណាក់កាលនីមួយៗបានជួយបង្កើតវិធីសាស្ត្ររៀន និងការអភិវឌ្ឍរបស់ខ្ញុំ។",
-      items: [
-        {
-          date: "ថ្នាក់ទី ៩",
-          title: "ការអប់រំមធ្យមសិក្សាបឋមភូមិ",
-          desc: "បានបញ្ចប់ថ្នាក់ទី ៩ និងកសាងមូលដ្ឋានសម្រាប់ការសិក្សាបន្ត។",
-        },
-        {
-          date: "ថ្នាក់ទី ១២",
-          title: "បញ្ចប់ការសិក្សាមធ្យមសិក្សា",
-          desc: "បានបញ្ចប់ថ្នាក់ទី ១២ ដោយទទួលបាននិទ្ទេស C និងត្រៀមខ្លួនសម្រាប់ការសិក្សានៅសាកលវិទ្យាល័យ។",
-        },
-        {
-          date: "Passerelles numériques Cambodia",
-          title: "និស្សិតអភិវឌ្ឍន៍គេហទំព័រ",
-          desc: "បានសិក្សាអភិវឌ្ឍន៍គេហទំព័រនៅ Passerelles numériques Cambodia និងអភិវឌ្ឍជំនាញជាក់ស្តែងសម្រាប់បង្កើតផលិតផលឌីជីថលដែលមានប្រយោជន៍។",
-        },
-        {
-          date: "បច្ចុប្បន្ន",
-          title: "រៀនតាមរយៈការបង្កើត",
-          desc: "បន្តរីកចម្រើនតាមរយៈគម្រោងអភិវឌ្ឍន៍គេហទំព័រ ការអនុវត្តកម្មវិធី និងការដោះស្រាយបញ្ហាជាក់ស្តែង។",
-        },
-      ],
-    },
     education: {
       eyebrow: "ការអប់រំ",
       title: "ការអប់រំ",
-      school: "Passerelles numériques Cambodia",
-      program: "កម្មវិធីអភិវឌ្ឍន៍គេហទំព័រ",
-      year: "បានបញ្ចប់",
+      school: "សាកលវិទ្យាល័យភូមិន្ទភ្នំពេញ",
+      program: "បរិញ្ញាបត្រវិទ្យាសាស្ត្រ ជំនាញវិទ្យាសាស្ត្រកុំព្យូទ័រ",
+      year: "2023 — 2027 (ព្យាករណ៍)",
       skillsLabel: "ជំនាញទទួលបាន",
       skillsList: [
         "រចនាសម្ព័ន្ធទិន្នន័យ និងក្បួនដោះស្រាយ",
@@ -837,11 +786,11 @@ const I18N = {
       items: {
         t1: {
           quote:
-            "តារា តែងតែសួរសំណួរត្រឹមត្រូវ និងបំប្លែងមតិកែលម្អទៅជាកូដល្អប្រសើរយ៉ាងលឿន។ សិស្សអភិវឌ្ឍន៍ដែលទុកចិត្តបានពិតប្រាកដ។",
+            "ម៉េងហុង តែងតែសួរសំណួរត្រឹមត្រូវ និងបំប្លែងមតិកែលម្អទៅជាកូដល្អប្រសើរយ៉ាងលឿន។ សិស្សអភិវឌ្ឍន៍ដែលទុកចិត្តបានពិតប្រាកដ។",
         },
         t2: {
           quote:
-            "ឆ្លាត ចង់ដឹងចង់ឃើញ និងងាយធ្វើការជាមួយ។ តារាចាប់យក stack របស់យើងបានលឿន និងបញ្ចេញមុខងារប្រើប្រាស់បានតាំងពីថ្ងៃដំបូង។",
+            "ឆ្លាត ចង់ដឹងចង់ឃើញ និងងាយធ្វើការជាមួយ។ ម៉េងហុងចាប់យក stack របស់យើងបានលឿន និងបញ្ចេញមុខងារប្រើប្រាស់បានតាំងពីថ្ងៃដំបូង។",
         },
         t3: {
           quote:

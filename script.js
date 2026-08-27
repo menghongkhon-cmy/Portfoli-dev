@@ -8,6 +8,24 @@
 (function () {
   "use strict";
 
+  const LIVE_DATA_KEY = "portfolio-admin-data";
+  const ADMIN_GATE_PASSWORD = "@menghong180";
+  const liveData = (() => {
+    try {
+      const stored = localStorage.getItem(LIVE_DATA_KEY);
+      return stored ? JSON.parse(stored) : null;
+    } catch (err) {
+      return null;
+    }
+  })();
+  const siteData = liveData && liveData.SITE ? liveData.SITE : SITE;
+  const skillsData = liveData && liveData.SKILLS ? liveData.SKILLS : SKILLS;
+  const projectsData = liveData && liveData.PROJECTS ? liveData.PROJECTS : PROJECTS;
+  const testimonialsData =
+    liveData && liveData.TESTIMONIALS ? liveData.TESTIMONIALS : TESTIMONIALS;
+  const translations = liveData && liveData.I18N ? liveData.I18N : I18N;
+  const appearanceData = liveData && liveData.APPEARANCE ? liveData.APPEARANCE : {};
+
   /* ---------------- helpers ---------------- */
   const $ = (sel, ctx) => (ctx || document).querySelector(sel);
   const $$ = (sel, ctx) => Array.from((ctx || document).querySelectorAll(sel));
@@ -17,18 +35,20 @@
 
   function t(lang, path) {
     const parts = path.split(".");
-    let node = I18N[lang];
+    let node = translations[lang];
     for (const p of parts) {
-      if (node == null) return "";
+      if (node == null) break;
       node = node[p];
     }
-    return node == null ? "" : node;
+    if (node != null) return node;
+    if (lang !== "en") return t("en", path);
+    return "";
   }
 
   /* ---------------- state ---------------- */
   const state = {
     lang: localStorage.getItem("portfolio-lang") || "en",
-    theme: localStorage.getItem("portfolio-theme") || "dark",
+    theme: localStorage.getItem("portfolio-theme") || appearanceData.defaultTheme || "dark",
     projectFilter: "all",
     testimonialIndex: 0,
   };
@@ -47,9 +67,42 @@
   }
 
   function initTheme() {
+    if (appearanceData.accent) {
+      document.documentElement.style.setProperty("--accent", appearanceData.accent);
+    }
     applyTheme(state.theme);
     $("#themeToggle").addEventListener("click", () => {
       applyTheme(state.theme === "dark" ? "light" : "dark");
+    });
+  }
+
+  function initSiteSettings() {
+    const stats = siteData.stats || {};
+    const counters = $$('[data-counter]');
+    [stats.projects, stats.technologies, stats.monthsLearning].forEach((value, index) => {
+      if (value == null || !counters[index]) return;
+      counters[index].setAttribute("data-counter", String(value));
+    });
+
+    const profileImages = $$(".hero__avatar img, .about__photo img");
+    if (siteData.profileImageDataUrl) {
+      profileImages.forEach((image) => { image.src = siteData.profileImageDataUrl; });
+    }
+
+    const cvUrl = siteData.cvDataUrl ||
+      (siteData.cvFile === "assets/cv/Menghong_CV.pdf" ? "Khon_Menghong_CV_Final.pdf" : siteData.cvFile);
+    if (cvUrl) $$("a[download]").filter((link) => /\.pdf|CV/i.test(link.href)).forEach((link) => { link.href = cvUrl; });
+    $$('a[href^="mailto:"]').forEach((link) => {
+      link.href = `mailto:${siteData.email}`;
+      const text = link.querySelector("span");
+      if (text) text.textContent = siteData.email;
+    });
+    const socialLinks = siteData.social || {};
+    if (socialLinks.github) $$('a[href*="github.com"]').forEach((link) => { link.href = socialLinks.github; });
+    if (socialLinks.linkedin) $$('a[href*="linkedin.com"]').forEach((link) => { link.href = socialLinks.linkedin; });
+    if (socialLinks.telegram) $$('a[href*="t.me/"]').forEach((link) => { link.href = socialLinks.telegram; });
+    $$('a[download]').forEach((link) => {
+      if (siteData.cvFileName) link.download = siteData.cvFileName;
     });
   }
 
@@ -82,22 +135,45 @@
     });
   }
 
+  function closeLangSwitch() {
+    const switcher = $("#langSwitch");
+    if (!switcher) return;
+    switcher.classList.remove("is-open");
+    switcher.setAttribute("aria-expanded", "false");
+  }
+
+  function toggleLangSwitch() {
+    const switcher = $("#langSwitch");
+    if (!switcher) return;
+    const isOpen = switcher.classList.toggle("is-open");
+    switcher.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  }
+
   function setLanguage(lang) {
     state.lang = lang;
     localStorage.setItem("portfolio-lang", lang);
     document.documentElement.setAttribute("lang", lang);
     document.body.classList.toggle("lang-km", lang === "km");
+    document.body.classList.toggle("lang-ja", lang === "ja");
     applyStaticTranslations(lang);
     updateLangSwitchUI(lang);
+    closeLangSwitch();
     renderDynamicSections(lang);
   }
 
   function initLanguage() {
     $$(".lang-switch__btn").forEach((btn) => {
-      btn.addEventListener("click", () => setLanguage(btn.getAttribute("data-lang")));
+      btn.addEventListener("click", () => {
+        if (btn.classList.contains("is-active")) {
+          toggleLangSwitch();
+          return;
+        }
+        setLanguage(btn.getAttribute("data-lang"));
+      });
     });
     document.documentElement.setAttribute("lang", state.lang);
     document.body.classList.toggle("lang-km", state.lang === "km");
+    document.body.classList.toggle("lang-ja", state.lang === "ja");
   }
 
   /* ============================================================
@@ -130,6 +206,16 @@
       li.textContent = s;
       list.appendChild(li);
     });
+
+    const highlights = $("#aboutHighlights");
+    if (!highlights) return;
+    highlights.innerHTML = "";
+    (t(lang, "about.highlights") || []).forEach((highlight) => {
+      const item = document.createElement("article");
+      item.className = "about__highlight";
+      item.innerHTML = `<h3>${highlight.title || ""}</h3><p>${highlight.text || ""}</p>`;
+      highlights.appendChild(item);
+    });
   }
 
   // ---- About: mini timeline ----
@@ -154,7 +240,7 @@
     ["frontend", "backend", "tools"].forEach((group) => {
       const container = $(`.skill-bars[data-skill-group="${group}"]`);
       container.innerHTML = "";
-      const items = SKILLS[group];
+      const items = skillsData[group];
       items.forEach((skill) => {
         const row = document.createElement("div");
         row.className = "skill-bar";
@@ -291,7 +377,7 @@
     const dict = t(lang, "projects.items");
     const labels = t(lang, "projects");
 
-    PROJECTS.forEach((proj, i) => {
+    projectsData.forEach((proj, i) => {
       const content = dict[proj.id];
       const card = document.createElement("article");
       card.className = "project-card";
@@ -371,7 +457,7 @@
   // ---- Project modal ----
   function openProjectModal(id) {
     const lang = state.lang;
-    const proj = PROJECTS.find((p) => p.id === id);
+    const proj = projectsData.find((p) => p.id === id);
     if (!proj) return;
     const content = t(lang, "projects.items")[id];
     const labels = t(lang, "projects.modal");
@@ -529,8 +615,8 @@
   }
 
   function renderGithub(lang) {
-    $("#ghUsername").textContent = "@" + SITE.githubUsername;
-    $("#ghProfileLink").href = SITE.social.github;
+    $("#ghUsername").textContent = "@" + siteData.githubUsername;
+    $("#ghProfileLink").href = siteData.social.github;
 
     // language distribution bar + legend
     const bar = $("#ghLangBar");
@@ -576,7 +662,7 @@
     dots.innerHTML = "";
     const dict = t(lang, "testimonials.items");
 
-    TESTIMONIALS.forEach((tItem, i) => {
+    testimonialsData.forEach((tItem, i) => {
       const content = dict[tItem.id];
       const card = document.createElement("div");
       card.className = "testimonial-card" + (i === state.testimonialIndex ? " is-active" : "");
@@ -927,7 +1013,7 @@
     const btn = $("#copyEmailBtn");
     btn.addEventListener("click", async () => {
       try {
-        await navigator.clipboard.writeText(SITE.email);
+        await navigator.clipboard.writeText(siteData.email);
       } catch (err) {
         /* clipboard unavailable — fail silently, no crash */
       }
@@ -1054,11 +1140,27 @@
     $("#footerYear").textContent = new Date().getFullYear();
   }
 
+  function initAdminGate() {
+    const link = $("#adminGateLink");
+    if (!link) return;
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      const entered = window.prompt("Enter admin access password:");
+      if (entered == null) return;
+      if (entered === ADMIN_GATE_PASSWORD) {
+        window.location.href = link.href;
+      } else {
+        window.alert("Incorrect admin access password.");
+      }
+    });
+  }
+
   /* ============================================================
      INIT
   ============================================================ */
   function init() {
     initLoader();
+    initSiteSettings();
     initTheme();
     initLanguage();
     initNavScroll();
@@ -1078,6 +1180,7 @@
     initKeyboardShortcuts();
     initEasterEgg();
     initFooterYear();
+    initAdminGate();
     initAvatarFallback();
     initAboutPhotoCycle();
 
@@ -1090,6 +1193,10 @@
     initCounters();
     observeReveal();
   }
+
+  window.addEventListener("storage", (event) => {
+    if (event.key === LIVE_DATA_KEY) window.location.reload();
+  });
 
   document.addEventListener("DOMContentLoaded", init);
 })();
