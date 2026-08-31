@@ -7,8 +7,8 @@
  */
 
 const SITE = {
-  "name": "Menghong",
-  "role": "menghong-dev",
+  "name": "Mengghong-dev",
+  "role": "mengghong-dev",
   "email": "menghong.dev@gmail.com",
   "location": "Phnom Penh, Cambodia",
   "social": {
@@ -433,23 +433,50 @@ const I18N = {
         }
       ]
     },
+    "backgroundStudy": {
+      "eyebrow": "Background Study",
+      "title": "My education path",
+      "subtitle": "I completed high school with a C grade and am now continuing my studies at PNC.",
+      "items": [
+        {
+          "date": "High School",
+          "title": "High school studies",
+          "desc": "Completed my high school education and earned a C grade in the final result."
+        },
+        {
+          "date": "Now",
+          "title": "Studying at PNC",
+          "desc": "Currently continuing my studies at Phnom Penh National Polytechnic Institute (PNC)."
+        }
+      ]
+    },
     "education": {
       "eyebrow": "Education",
       "title": "Education",
-      "school": "Royal University of Phnom Penh",
-      "program": "Bachelor of Science in Computer Science",
-      "year": "2023 — 2027 (Expected)",
+      "school": "Passerelles Numériques Cambodia (PNC)",
+      "program": "Web Development / Full Stack Development",
+      "year": "2023 — 2027 (Currently Studying)",
+      "location": "Phnom Penh, Cambodia",
       "skillsLabel": "Skills gained",
       "skillsList": [
-        "Data structures & algorithms",
-        "Web development fundamentals",
-        "Database systems",
-        "Software engineering principles"
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "React",
+        "Node.js",
+        "PHP/Laravel",
+        "MySQL",
+        "SQL",
+        "Git/GitHub",
+        "REST API",
+        "Deployment"
       ],
       "projectsLabel": "Relevant coursework projects",
       "projectsList": [
-        "Student management system (Flask + MySQL)",
-        "Data structures visualizer"
+        "Web application development",
+        "Database design and SQL",
+        "REST API and deployment",
+        "Frontend/backend integration"
       ]
     },
     "certs": {
@@ -769,6 +796,23 @@ const I18N = {
           "date": "អនាគត",
           "title": "អ្នកអភិវឌ្ឍន៍ Full-Stack",
           "desc": "គោលដៅ៖ ទទួលបានកម្មសិក្សា ឬតួនាទីអ្នកអភិវឌ្ឍន៍ថ្មី រួមចំណែកបង្កើតកម្មវិធីផលិតកម្មពិតប្រាកដ និងបន្តរីកចម្រើនទៅជាអ្នកអភិវឌ្ឍន៍ជាន់ខ្ពស់។"
+        }
+      ]
+    },
+    "backgroundStudy": {
+      "eyebrow": "ប្រវត្តិសិក្សា",
+      "title": "ដំណើរការសិក្សារបស់ខ្ញុំ",
+      "subtitle": "ខ្ញុំបានបញ្ចប់ការសិក្សាអនុវិទ្យាល័យដោយទទួលបាន C ហើយបច្ចុប្បន្នកំពុងបន្តសិក្សានៅ PNC។",
+      "items": [
+        {
+          "date": "អនុវិទ្យាល័យ",
+          "title": "ការសិក្សាអនុវិទ្យាល័យ",
+          "desc": "បានបញ្ចប់ការសិក្សាអនុវិទ្យាល័យ និងទទួលបាន C ក្នុងលទ្ធផលចុងក្រោយ។"
+        },
+        {
+          "date": "បច្ចុប្បន្ន",
+          "title": "កំពុងសិក្សានៅ PNC",
+          "desc": "កំពុងបន្តការសិក្សានៅ Phnom Penh National Polytechnic Institute (PNC)។"
         }
       ]
     },

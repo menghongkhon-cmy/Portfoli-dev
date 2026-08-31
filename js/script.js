@@ -572,6 +572,7 @@
     $("#eduSchool").textContent = edu.school;
     $("#eduYear").textContent = edu.year;
     $("#eduProgram").textContent = edu.program;
+    $("#eduLocation").textContent = edu.location || "";
     $("#eduSkills").innerHTML = edu.skillsList.map((s) => `<li>${s}</li>`).join("");
     $("#eduProjects").innerHTML = edu.projectsList.map((s) => `<li>${s}</li>`).join("");
   }
